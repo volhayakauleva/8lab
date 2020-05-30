@@ -11,6 +11,8 @@ namespace Lab8
 
     public class Person
     {
+        public delegate void PeopleHandler(string message);
+        public event PeopleHandler Notify;
         public static int personCounter = 0;
         protected string FirstName { get; set; }
         protected string LastName { get; set; }
@@ -30,6 +32,11 @@ namespace Lab8
         public void Print()
         {
             Console.WriteLine(LastName + " " + FirstName + " Возраст: " + Age);
+        }
+        public void PrintLastFirstName()
+        {
+            Notify?.Invoke("Были запрошены фамилия и имя: ");
+            Console.WriteLine(LastName + " " + FirstName);
         }
         public static void peopleAmount()
         {
@@ -102,6 +109,7 @@ namespace Lab8
         {
             Professional specialist1 = new Professional("Иван", "Иванов", 20, "Футбол", 2);
             Professional specialist2 = new Professional("Петр", "Петров", 22, "Баскетбол", 3);
+            specialist2.Notify += (string mes) => Console.WriteLine(mes);
             specialist1.Print();
             specialist2.Print();
 
